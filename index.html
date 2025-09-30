@@ -6,15 +6,34 @@
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <style>
+    body {
+      background-color: #f9f9f9;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    h2 {
+      margin: 20px 0;
+      font-size: 22px;
+    }
+    #vis {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
 </head>
-<body style="background-color:#f9f9f9; font-family:sans-serif;">
+<body>
 
-  <h2 style="text-align:center;">Australian Universities by Total Enrolments (2025)</h2>
+  <h2>Australian Universities by Total Enrolments (2025)</h2>
   
-  <div id="vis" style="display:flex; justify-content:center;"></div>
+  <div id="vis"></div>
 
   <script type="text/javascript">
-    vegaEmbed('#vis', 'map_test.vg.json', { "actions": false })
+    // Add cache-busting query string
+    const specUrl = 'map_test.vg.json?v=' + new Date().getTime();
+    vegaEmbed('#vis', specUrl, { actions: false })
       .then(result => {
         // Map rendered successfully
       })
