@@ -1,0 +1,97 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {
+      "text": "Australian Universities by Total Enrolments (2025)",
+      "fontSize": 18,
+      "anchor": "middle"
+    },
+    "width": 750,
+    "height": 600,
+    "background": "#e6f2ff",
+  
+    "projection": {
+      "type": "mercator",
+      "center": [134, -28],
+      "scale": 820,
+      "translate": [375, 300]
+    },
+  
+    "layer": [
+      {
+        "data": {
+          "url": "australia.json",
+          "format": { "type": "topojson", "feature": "ne_50m_admin_0_countries" }
+        },
+        "transform": [{ "filter": "datum.properties.ADMIN == 'Australia'" }],
+        "mark": {
+          "type": "geoshape",
+          "fill": "#d9f0a3",
+          "stroke": "#333",
+          "strokeWidth": 0.8
+        }
+      },
+      {
+        "data": {
+          "url": "australia_states.json",
+          "format": { "type": "topojson", "feature": "ne_50m_admin_1_states_provinces" }
+        },
+        "transform": [{ "filter": "datum.properties.admin == 'Australia'" }],
+        "mark": { "type": "geoshape", "fill": null, "stroke": "#666", "strokeWidth": 0.6 }
+      },
+      {
+        "data": { "url": "aus_universities_clean_unis.csv" },
+        "mark": { "type": "circle", "opacity": 0.8, "stroke": "white", "strokeWidth": 0.7 },
+        "encoding": {
+          "longitude": { "field": "Longitude", "type": "quantitative" },
+          "latitude": { "field": "Latitude", "type": "quantitative" },
+          "size": {
+            "field": "Total_Enrolments",
+            "type": "quantitative",
+            "scale": { "domain": [2000, 85000], "range": [50, 1500] },
+            "legend": {
+              "title": "Total Enrolments",
+              "orient": "right",
+              "values": [2000, 20000, 40000, 60000, 80000],
+              "labelExpr": "datum.value == 2000 ? '< 20,000 students' : format(datum.value, ',') + ' students'"
+            }
+          },
+          "color": {
+            "field": "Total_Enrolments",
+            "type": "quantitative",
+            "scale": { "scheme": "reds" },
+            "legend": null
+          },
+          "tooltip": [
+            { "field": "Institution", "type": "nominal", "title": "University" },
+            { "field": "State", "type": "nominal", "title": "State" },
+            { "field": "Total_Enrolments", "type": "quantitative", "title": "Enrolments", "format": "," }
+          ]
+        }
+      },
+      {
+        "data": {
+          "values": [
+            { "state": "WA", "lon": 122, "lat": -25 },
+            { "state": "NT", "lon": 133, "lat": -19 },
+            { "state": "SA", "lon": 135, "lat": -30 },
+            { "state": "QLD", "lon": 145, "lat": -21 },
+            { "state": "NSW", "lon": 147, "lat": -33 },
+            { "state": "VIC", "lon": 144, "lat": -36.5 },  
+            { "state": "TAS", "lon": 146.5, "lat": -42 }
+          ]
+        },
+        "mark": {
+          "type": "text",
+          "fontSize": 12,
+          "fontWeight": "bold",
+          "color": "#5d5d5d"
+        },
+        "encoding": {
+          "longitude": { "field": "lon", "type": "quantitative" },
+          "latitude": { "field": "lat", "type": "quantitative" },
+          "text": { "field": "state" }
+        }
+      }
+    ]
+  }
+  
